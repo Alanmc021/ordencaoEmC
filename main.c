@@ -1,10 +1,9 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h> //clock(), CLOCKS_PER_SEC e clock_t
 #define TAM 100	  //constante para tamanho do vetor
 
-int troca, comparar ;
+int movimentar, comparar ;
 
 void swap(int *a, int *b)
 {    
@@ -12,7 +11,7 @@ void swap(int *a, int *b)
 	int temp = *a;
 	*a = *b;
 	*b = temp;
-	troca++;
+	//movimentar++;
 }
 void bubbleSort(int *v, int n)
 {   
@@ -37,17 +36,40 @@ void selection_sort(int num[], int tam)
 	{
 		min = i;
 		for (j = (i + 1); j < tam; j++)
+		comparar++;
 		{
 			if (num[j] < num[min])
-				min = j;
+			movimentar++;
+			min = j;
+		      
 		}
 		if (i != min)
 		{
+		    
 			aux = num[i];
 			num[i] = num[min];
 			num[min] = aux;
+			
 		}
 	}
+}
+
+void insertionSort(int arr[], int size){
+    int i, j, key;
+    
+    for (i = 1; i < size; i++) {
+        comparar++;
+        key = arr[i];
+        j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            movimentar++;
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        
+        arr[j + 1] = key;
+       
+    }
 }
 
 int main()
@@ -64,7 +86,7 @@ int main()
 	scanf("%d", &type);
 
 	for (i = 0; i < TAM; i++)
-		vetor[i] = rand() % TAM;
+		vetor[i] = rand() % 10000;
 
 	t = clock(); //armazena tempo
 	if (type == 1)
@@ -75,11 +97,15 @@ int main()
 	{
 		selection_sort(vetor, TAM);
 	}
+	if(type == 3)
+	{
+	    insertionSort(vetor,TAM);
+	}
 	t = clock() - t; //tempo final - tempo inicial
 	for (i = 0; i < TAM; i++)
 		printf("%d ", vetor[i]);
 	printf("\n\nTempo de execucao: %lf", ((double)t) / ((CLOCKS_PER_SEC / 1000))); //conversão para double
-	printf("\n\nTrocas: %d\n\n", troca);
+	printf("\n\nMovimentações: %d\n\n", movimentar);
 	printf("\nComparacoes: %d\n\n", comparar);
 	return 0;
 }
